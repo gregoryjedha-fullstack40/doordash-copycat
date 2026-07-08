@@ -21,13 +21,13 @@ jobs:
 
       - name: Test health endpoint calculate-fee
         run: |
-          curl --fail http://localhost:8090/calculate-fee
+          curl --fail -X POST http://localhost:8090/calculate-fee
       
       - name: Test health endpoint estimate-time
         run: |
-          curl --fail http://localhost:8090/estimate-time
+          curl --fail -X GET http://localhost:8090/estimate-time
       
       - name: Test health endpoint status
         run: |
-          curl --fail http://localhost:8090/status
+          curl --fail -X GET http://localhost:8090/status
 

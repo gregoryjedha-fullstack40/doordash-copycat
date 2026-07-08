@@ -20,7 +20,7 @@ jobs:
         run: docker run -d -p 8090:8090 doordash/delivery-fee-service
 
       - name: Show container logs
-        run: docker logs delivery-fee-service
+        run: docker logs doordash/delivery-fee-service
 
       - name: Test endpoint calculate-fee
         run: |

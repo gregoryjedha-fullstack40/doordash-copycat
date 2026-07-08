@@ -31,7 +31,7 @@ It provides three endpoints to calculate delivery fees, estimate delivery time, 
 ### POST /calculate-fee/
 ```json
 {
-  "distance_km": 10.5,
+  "distance_km": 10.5,:
   "weight_kg": 2.0
 }
 ```

@@ -1,0 +1,33 @@
+name: CI Workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build docker image
+        run: docker build -t doordash/delivery-fee-service .
+
+      - name: Build docker image
+        run: docker run -d -p 8080:8080 doordash/delivery-fee-service
+
+      - name: Test health endpoint calculate-fee
+        run: |
+          curl --fail http://localhost:8000/calculate-fee
+      
+      - name: Test health endpoint estimate-time
+        run: |
+          curl --fail http://localhost:8000/estimate-time
+      
+      - name: Test health endpoint status
+        run: |
+          curl --fail http://localhost:8000/status
+

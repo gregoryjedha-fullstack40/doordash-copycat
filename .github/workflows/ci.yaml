@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+
+      - name: Install pytest and HTTPX
+        run: |
+            pip install pytest httpx
         
       - name: Build docker image
         run: docker build -t doordash/delivery-fee-service .
@@ -22,6 +26,18 @@ jobs:
 
       - name: Show container logs
         run: docker logs delivery-fee-service
+
+      - name: Wait for container to start
+        run: |
+          echo "Waiting for API to be ready on http://localhost:8090 ..."
+          for i in {1..10}; do
+            if curl -sSf http://localhost:8090/status/ > /dev/null; then
+              echo "API is up ✅"
+              exit 0
+            fi
+            echo "API not ready yet, retrying in 3s..."
+            sleep 5
+          done
 
       - name: Test endpoint calculate-fee
         run: |
@@ -34,6 +50,9 @@ jobs:
 
       - name: Test endpoint status
         run: curl -sSf -X GET http://localhost:8090/status || exit 1
+
+      - name: Run tests using pytest
+        run: pytest -v
 
       - name: Stop and remove container
         run: docker stop delivery-fee-service && docker rm delivery-fee-service

@@ -2,7 +2,8 @@ import pytest
 import httpx
 
 def test_fee_calculation():
-    payload = {"distance_km": 5, "time_minutes": 10}
+    payload = {"distance_km": 5, "weight_kg": 10}
     response = httpx.post("http://localhost:8090/calculate-fee/", json=payload)
     assert response.status_code == 200
-    assert "fee" in response.json()
+    assert "delivery_fee" in response.text
+    assert "17.5" in response.text

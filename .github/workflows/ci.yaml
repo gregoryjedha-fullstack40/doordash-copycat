@@ -24,10 +24,13 @@ jobs:
         run: docker logs delivery-fee-service
 
       - name: Test endpoint calculate-fee
-        run: curl -sSf -X POST http://localhost:8090/calculate-fee || exit 1
+        run: curl -sSf -X POST http://localhost:8090/calculate-fee/ \
+            -H "Content-Type: application/json" \
+            -d '{"distance_km": 10.5, "weight_kg": 2.0}' \
+            || exit 1
       
       - name: Test endpoint estimate-time
-        run: curl -sSf -X GET http://localhost:8090/estimate-time || exit 1
+        run: curl -sSf -X POST http://localhost:8090/estimate-time || exit 1
 
       - name: Test endpoint status
         run: curl -sSf -X GET http://localhost:8090/status || exit 1

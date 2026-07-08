@@ -19,15 +19,18 @@ jobs:
       - name: Build docker image
         run: docker run -d -p 8090:8090 doordash/delivery-fee-service
 
-      - name: Test health endpoint calculate-fee
+      - name: Show container logs
+        run: docker logs delivery-fee-service
+
+      - name: Test endpoint calculate-fee
         run: |
           curl --fail -X POST http://localhost:8090/calculate-fee
       
-      - name: Test health endpoint estimate-time
+      - name: Test endpoint estimate-time
         run: |
           curl --fail -X GET http://localhost:8090/estimate-time
       
-      - name: Test health endpoint status
+      - name: Test endpoint status
         run: |
           curl --fail -X GET http://localhost:8090/status
 

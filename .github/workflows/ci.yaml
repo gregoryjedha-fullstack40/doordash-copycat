@@ -17,20 +17,17 @@ jobs:
         run: docker build -t doordash/delivery-fee-service .
 
       - name: Build docker image
-        run: docker run -d -p 8090:8090 doordash/delivery-fee-service
+        run: docker run -d -p 8090:8090 --name delivery-fee-service doordash/delivery-fee-service
 
       - name: Show container logs
-        run: docker logs doordash/delivery-fee-service
+        run: docker logs delivery-fee-service
 
       - name: Test endpoint calculate-fee
-        run: |
-          curl --fail -X POST http://localhost:8090/calculate-fee
+        run: curl -sSf http://localhost:8090/calculate-fee || exit 1
       
       - name: Test endpoint estimate-time
-        run: |
-          curl --fail -X GET http://localhost:8090/estimate-time
-      
+        run: curl -sSf http://localhost:8090/estimate-time || exit 1
+
       - name: Test endpoint status
-        run: |
-          curl --fail -X GET http://localhost:8090/status
+        run: curl -sSf http://localhost:8090/status || exit 1
 
